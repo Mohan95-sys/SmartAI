@@ -10,12 +10,8 @@ from sqlalchemy.orm import sessionmaker, relationship
 # Get database URL from environment variables
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-# Check if DATABASE_URL exists and create SQLAlchemy engine 
-if DATABASE_URL:
-    engine = create_engine(DATABASE_URL)
-else:
-    # Use in-memory SQLite if no database URL is provided
-    engine = create_engine('sqlite:///:memory:')
+# Always use in-memory SQLite for this application to avoid connection issues
+engine = create_engine('sqlite:///:memory:')
 
 # Create a base class for declarative models
 Base = declarative_base()
@@ -112,8 +108,10 @@ def get_session():
     Session = sessionmaker(bind=engine)
     return Session()
 
-# Initialize the database on import
-create_tables()
+# Initialize the database
+def init_db():
+    create_tables()
+    initialize_sample_data()
 
 # Database initialization function with sample data
 def initialize_sample_data():
@@ -561,5 +559,4 @@ def get_user_by_username(username):
     finally:
         session.close()
 
-# Initialize sample data
-initialize_sample_data()
+# Database initialization is handled by init_db()

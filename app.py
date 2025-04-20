@@ -8,7 +8,7 @@ from crop_prediction import predict_crop
 from data_visualization import visualize_data
 from utils import load_pickle_file, load_jupyter_notebook, extract_code_from_notebook
 from crop_prices import display_crop_prices
-from database import initialize_sample_data
+from database import init_db
 from translations import get_text, LANGUAGES
 
 # Set page configuration
@@ -43,7 +43,7 @@ if 'language' not in st.session_state:
     st.session_state.language = 'en'  # Default language is English
     
 # Initialize the database with sample data
-initialize_sample_data()
+init_db()
 
 def main():
     # Add language selector in the sidebar
