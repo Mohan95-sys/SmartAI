@@ -10,8 +10,12 @@ from sqlalchemy.orm import sessionmaker, relationship
 # Get database URL from environment variables
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-# Create SQLAlchemy engine
-engine = create_engine(DATABASE_URL)
+# Check if DATABASE_URL exists and create SQLAlchemy engine 
+if DATABASE_URL:
+    engine = create_engine(DATABASE_URL)
+else:
+    # Use in-memory SQLite if no database URL is provided
+    engine = create_engine('sqlite:///:memory:')
 
 # Create a base class for declarative models
 Base = declarative_base()
