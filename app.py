@@ -437,25 +437,37 @@ def display_crop_prediction():
 
 def basic_crop_prediction(n, p, k, temperature, humidity, ph, rainfall):
     """
-    A simple rule-based prediction method for demonstration purposes.
-    In a real application, this would be replaced with an actual ML model.
+    A simple rule-based prediction method based on crop requirements.
     """
-    if temperature > 30 and rainfall < 50:
-        return "Millet"
-    elif n > 100 and p > 100 and k > 100:
-        return "Rice"
-    elif ph < 6 and rainfall > 200:
-        return "Tea"
-    elif temperature < 20 and humidity > 80:
-        return "Wheat"
-    elif ph > 7 and n < 30:
-        return "Chickpea"
-    elif k > 80 and temperature > 25:
-        return "Cotton"
-    elif p > 80 and ph >= 6 and ph <= 7:
+    # Specific crop conditions based on the database ranges
+    if n >= 80 and n <= 120 and p >= 50 and temperature >= 20 and temperature <= 32 and humidity >= 50 and humidity <= 80:
         return "Maize"
+    elif n >= 20 and n <= 40 and p >= 40 and temperature >= 18 and temperature <= 26 and ph >= 6.5:
+        return "Chickpea"
+    elif n >= 60 and n <= 100 and k >= 70 and temperature >= 25 and temperature <= 35:
+        return "Cotton"
+    elif n >= 50 and n <= 80 and temperature >= 20 and temperature <= 30 and ph <= 5.5:
+        return "Tea"
+    elif n >= 30 and n <= 60 and temperature >= 25 and humidity <= 60:
+        return "Millet"
+    elif temperature < 20 and humidity > 70 and rainfall >= 75:
+        return "Wheat"
+    elif temperature >= 22 and temperature <= 32 and humidity >= 80 and rainfall >= 100:
+        return "Rice"
+    
+    # Secondary conditions if no exact match
+    if temperature >= 25 and n >= 60:
+        return "Cotton"
+    elif temperature < 20:
+        return "Wheat"
+    elif n >= 80 and k >= 40:
+        return "Maize"
+    elif ph <= 5.5 and humidity > 70:
+        return "Tea"
+    elif temperature >= 25 and rainfall < 50:
+        return "Millet"
     else:
-        return "Rice"  # Default prediction
+        return "Rice"
 
 def display_crop_info(crop_name):
     """
