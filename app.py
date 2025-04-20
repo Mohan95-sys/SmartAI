@@ -24,11 +24,14 @@ with open("style.css") as f:
 
 # Function to load and display SVG images
 def display_svg_image(svg_file, width=None):
-    with open(svg_file, 'r') as f:
-        svg_content = f.read()
-    
-    # Apply width if specified
-    if width:
+    try:
+        import os
+        file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), svg_file)
+        with open(file_path, 'r') as f:
+            svg_content = f.read()
+        
+        # Apply width if specified
+        if width:
         svg_content = svg_content.replace('<svg width="100"', f'<svg width="{width}"')
     
     # Encode SVG content as base64
@@ -37,6 +40,9 @@ def display_svg_image(svg_file, width=None):
     # Display the image using HTML
     html = f'<img src="data:image/svg+xml;base64,{b64}"/>'
     return html
+    except Exception as e:
+        st.warning(f"Could not load image: {svg_file}")
+        return ""  # Return empty string if image fails to load
 
 # Initialize session state for language
 if 'language' not in st.session_state:
